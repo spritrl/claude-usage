@@ -1,0 +1,17 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# App bundle output
+build/
+
+# Xcode / editors
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
