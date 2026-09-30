@@ -13,12 +13,12 @@ final class UsageStore {
     }
 
     // MARK: État observable
-    private(set) var phase: Phase = .unlinked
-    private(set) var credentials: OAuthCredentials?
-    private(set) var snapshot: UsageSnapshot?
+    var phase: Phase = .unlinked
+    var credentials: OAuthCredentials?
+    var snapshot: UsageSnapshot?
     private(set) var errorMessage: String?
     private(set) var isRefreshing = false
-    private(set) var lastRefresh: Date?
+    var lastRefresh: Date?
     /// Vrai quand le champ « coller le code » doit être affiché.
     private(set) var manualLoginPending = false
 

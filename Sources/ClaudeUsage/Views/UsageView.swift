@@ -99,8 +99,8 @@ private struct UsageRow: View {
                     .font(.callout.monospacedDigit().weight(.semibold))
                     .foregroundStyle(window.map { UsageColor.color(for: $0.utilization) } ?? .secondary)
             }
-            ProgressView(value: window?.fraction ?? 0)
-                .tint(window.map { UsageColor.color(for: $0.utilization) } ?? .secondary)
+            UsageBar(fraction: window?.fraction ?? 0,
+                     color: window.map { UsageColor.color(for: $0.utilization) } ?? .secondary)
             if let reset = window?.resetsAt {
                 let clock = reset.formatted(date: .omitted, time: .shortened)
                 Text(tr("Resets \(RelativeTime.until(reset, now: now)) (\(clock))"))
@@ -108,6 +108,25 @@ private struct UsageRow: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+/// Barre de progression dessinée en SwiftUI : couleur fiable partout (le `ProgressView` natif ignore la teinte).
+private struct UsageBar: View {
+    let fraction: Double
+    let color: Color
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Capsule().fill(.quaternary)
+                Capsule()
+                    .fill(color)
+                    .frame(width: max(geometry.size.width * fraction, fraction > 0 ? 6 : 0))
+            }
+        }
+        .frame(height: 6)
+        .animation(.easeOut(duration: 0.3), value: fraction)
     }
 }
 

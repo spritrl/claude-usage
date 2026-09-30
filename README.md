@@ -4,9 +4,18 @@ A tiny native macOS menu bar app that shows your Claude subscription usage in re
 
 > 🇫🇷 [Version française](README.fr.md)
 
-```
-◔ 42% · 18%
-```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/menubar-dark.png">
+    <img src="docs/menubar-light.png" alt="Claude Usage in the macOS menu bar: a colored ring followed by 42% · 18%" width="321">
+  </picture>
+</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/popup-dark.png">
+    <img src="docs/popup-light.png" alt="Claude Usage popup with the 5-hour session and weekly progress bars, reset times and account source" width="340">
+  </picture>
+</p>
 
 The ring and the two numbers are your **current 5-hour session** and your **weekly** limit, the same
 values Claude Code prints with `/usage`. Click the icon for the details: progress bars, reset times,

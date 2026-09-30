@@ -1,6 +1,6 @@
 APP := build/ClaudeUsage.app
 
-.PHONY: build bundle run install clean
+.PHONY: build bundle run install clean screenshots
 
 build:
 	swift build -c release
@@ -20,3 +20,6 @@ install: bundle
 
 clean:
 	rm -rf .build build
+
+screenshots: build
+	$$(swift build -c release --show-bin-path)/ClaudeUsage --screenshots docs

@@ -4,9 +4,18 @@ Petite app macOS native qui affiche ta consommation Claude en direct dans la bar
 
 > 🇬🇧 [English version](README.md)
 
-```
-◔ 42% · 18%
-```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/menubar-dark.png">
+    <img src="docs/menubar-light.png" alt="Claude Usage dans la barre de menus macOS : un anneau coloré suivi de 42% · 18%" width="321">
+  </picture>
+</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/popup-dark.png">
+    <img src="docs/popup-light.png" alt="Popup Claude Usage avec les jauges session 5 h et semaine, les heures de réinitialisation et la source du compte" width="340">
+  </picture>
+</p>
 
 L'anneau et les deux nombres correspondent à ta **session 5 h** et à ta **limite hebdomadaire**, les mêmes
 valeurs que la commande `/usage` de Claude Code. Un clic sur l'icône ouvre le détail : jauges, heures de
