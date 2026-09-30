@@ -20,16 +20,26 @@ your plan, and account linking.
 
 ## Install
 
-Requires macOS 14 (Sonoma) or later, and Xcode 15+ (or the Command Line Tools) to build.
+Requires macOS 14 (Sonoma) or later. Building from source needs Xcode 15+ (or the Command Line Tools).
+
+**Homebrew** (recommended):
+
+```bash
+brew install --no-quarantine spritrl/tap/claude-usage
+```
+
+`--no-quarantine` skips the Gatekeeper warning for this ad-hoc signed app. Later updates: `brew upgrade --cask claude-usage`.
+
+**Download**: grab `ClaudeUsage.app.zip` from the [latest release](https://github.com/spritrl/claude-usage/releases/latest),
+unzip, move the app to `/Applications`. On first launch right-click → **Open** if Gatekeeper complains.
+
+**From source**:
 
 ```bash
 git clone https://github.com/spritrl/claude-usage.git
 cd claude-usage
 make install     # builds a release .app, copies it to /Applications and launches it
 ```
-
-Prebuilt builds are attached to each [GitHub release](https://github.com/spritrl/claude-usage/releases).
-The app is ad-hoc signed, so on first launch right-click → **Open** if Gatekeeper complains.
 
 Other targets: `make run` (build and launch from `build/`), `make bundle`, `make clean`.
 
