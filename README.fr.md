@@ -16,6 +16,7 @@ réinitialisation, abonnement et liaison du compte.
 - **Liaison sans configuration** : réutilise la session que Claude Code stocke déjà dans le Trousseau.
 - **Connexion autonome** : ou connecte-toi avec Claude depuis l'app (OAuth + PKCE, le même flux que Claude Code).
 - **Respect de la vie privée** : les jetons restent dans le Trousseau macOS et ne sont envoyés qu'à l'API d'Anthropic.
+- **Localisée** : anglais par défaut, français inclus (suit la langue du système). Pour ajouter une langue, déposer un `<lang>.lproj/Localizable.strings` dans `Sources/ClaudeUsage/Localization/`.
 
 ## Installation
 
@@ -64,7 +65,9 @@ Sources/ClaudeUsage/
 ├── Services/                   ClaudeCodeKeychainReader, AppKeychainStore, OAuthService,
 │                               LocalCallbackServer, UsageAPIClient
 ├── Store/UsageStore.swift      État observable, liaison, polling
-└── Views/                      MenuBarLabel + icône, PopoverView, LinkAccountView, UsageView
+├── Views/                      MenuBarLabel + icône, PopoverView, LinkAccountView, UsageView
+├── Localization/               en.lproj + fr.lproj (les clés sont les textes anglais)
+└── Localization.swift          tr() : String(localized:bundle: .module)
 ```
 
 Compilation avec `swift build`, sans projet Xcode. `scripts/bundle.sh` emballe le binaire dans

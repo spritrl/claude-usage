@@ -18,12 +18,12 @@ struct OAuthService {
 
         var errorDescription: String? {
             switch self {
-            case .invalidCode: return "Le code collé est vide ou mal formé."
-            case .stateMismatch: return "Le code ne correspond pas à cette tentative de connexion. Relance la connexion."
+            case .invalidCode: return tr("The pasted code is empty or malformed.")
+            case .stateMismatch: return tr("The code does not match this sign-in attempt. Start the sign-in again.")
             case .tokenExchange(let status, let body):
-                return "Échec de l'échange du code (\(status))\(body.isEmpty ? "" : " : \(body)")"
-            case .network(let error): return "Réseau indisponible : \(error.localizedDescription)"
-            case .noRefreshToken: return "Aucun jeton de rafraîchissement disponible, reconnecte-toi."
+                return tr("Code exchange failed (\(status))\(body.isEmpty ? "" : ": \(body)")")
+            case .network(let error): return tr("Network unavailable: \(error.localizedDescription)")
+            case .noRefreshToken: return tr("No refresh token available, please sign in again.")
             }
         }
     }

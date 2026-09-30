@@ -11,6 +11,10 @@ rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/ClaudeUsage"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
+# Ressources SwiftPM (traductions) : Bundle.module les cherche dans Contents/Resources.
+cp -R "$(dirname "$BIN")/ClaudeUsage_ClaudeUsage.bundle" "$APP/Contents/Resources/"
+# Dossiers lproj vides pour que macOS liste l'app dans Réglages > Langue et région.
+mkdir -p "$APP/Contents/Resources/en.lproj" "$APP/Contents/Resources/fr.lproj"
 if [ -f Resources/AppIcon.icns ]; then
   cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 fi

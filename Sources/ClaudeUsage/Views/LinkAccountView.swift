@@ -7,9 +7,9 @@ struct LinkAccountView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Lier ton compte Claude")
+                Text(tr("Link your Claude account"))
                     .font(.headline)
-                Text("Claude Usage affiche ta consommation (session 5 h et semaine) dans la barre de menus.")
+                Text(tr("Claude Usage shows your consumption (5-hour session and weekly) in the menu bar."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -19,7 +19,7 @@ struct LinkAccountView: View {
                     ProgressView().controlSize(.small)
                     Text(message).font(.callout)
                     Spacer()
-                    Button("Annuler") { store.cancelLinking() }
+                    Button(tr("Cancel")) { store.cancelLinking() }
                         .controlSize(.small)
                 }
                 .padding(10)
@@ -29,23 +29,23 @@ struct LinkAccountView: View {
                     Button {
                         Task { await store.linkViaClaudeCode() }
                     } label: {
-                        Label("Lier via Claude Code", systemImage: "terminal")
+                        Label(tr("Link via Claude Code"), systemImage: "terminal")
                             .frame(maxWidth: .infinity)
                     }
                     .controlSize(.large)
                     .buttonStyle(.borderedProminent)
-                    Text("Réutilise la session déjà ouverte dans le terminal. macOS peut demander l'accès au Trousseau : choisis « Toujours autoriser ».")
+                    Text(tr("Reuses the session already open in your terminal. macOS may ask for Keychain access: choose “Always Allow”."))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
 
                     Button {
                         store.startBrowserLogin()
                     } label: {
-                        Label("Se connecter avec Claude", systemImage: "safari")
+                        Label(tr("Sign in with Claude"), systemImage: "safari")
                             .frame(maxWidth: .infinity)
                     }
                     .controlSize(.large)
-                    Text("Ouvre claude.ai dans le navigateur, puis revient automatiquement ici.")
+                    Text(tr("Opens claude.ai in your browser, then comes back here automatically."))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -53,19 +53,19 @@ struct LinkAccountView: View {
 
             if store.manualLoginPending {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Colle le code affiché par claude.ai :")
+                    Text(tr("Paste the code shown by claude.ai:"))
                         .font(.caption)
                     HStack {
                         TextField("code#state", text: $manualCode)
                             .textFieldStyle(.roundedBorder)
                             .font(.system(.caption, design: .monospaced))
                             .onSubmit(submit)
-                        Button("Valider", action: submit)
+                        Button(tr("Submit"), action: submit)
                             .disabled(manualCode.trimmingCharacters(in: .whitespaces).isEmpty)
                     }
                 }
             } else if case .unlinked = store.phase {
-                Button("Le navigateur ne revient pas ? Connexion manuelle") {
+                Button(tr("Browser not coming back? Sign in manually")) {
                     store.startManualLogin()
                 }
                 .buttonStyle(.link)
@@ -82,7 +82,7 @@ struct LinkAccountView: View {
             Divider()
             HStack {
                 Spacer()
-                Button("Quitter") { NSApplication.shared.terminate(nil) }
+                Button(tr("Quit")) { NSApplication.shared.terminate(nil) }
                     .controlSize(.small)
             }
         }

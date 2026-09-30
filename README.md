@@ -16,6 +16,7 @@ your plan, and account linking.
 - **Zero-config linking**: reuses the session Claude Code already stores in your Keychain.
 - **Standalone login**: or sign in with Claude directly from the app (OAuth + PKCE, same flow as Claude Code).
 - **Private by design**: tokens live only in the macOS Keychain and are sent only to Anthropic's API.
+- **Localized**: English by default, French included. Add a language by dropping a `<lang>.lproj/Localizable.strings` in `Sources/ClaudeUsage/Localization/`.
 
 ## Install
 
@@ -64,7 +65,9 @@ Sources/ClaudeUsage/
 ├── Services/                   ClaudeCodeKeychainReader, AppKeychainStore, OAuthService,
 │                               LocalCallbackServer, UsageAPIClient
 ├── Store/UsageStore.swift      Observable state, linking, polling
-└── Views/                      MenuBarLabel + icon, PopoverView, LinkAccountView, UsageView
+├── Views/                      MenuBarLabel + icon, PopoverView, LinkAccountView, UsageView
+├── Localization/               en.lproj + fr.lproj (keys are the English strings)
+└── Localization.swift          tr(): String(localized:bundle: .module)
 ```
 
 Build with `swift build`; there is no Xcode project. `scripts/bundle.sh` wraps the binary into

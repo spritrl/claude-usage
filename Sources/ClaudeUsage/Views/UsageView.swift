@@ -2,7 +2,7 @@ import SwiftUI
 
 struct UsageView: View {
     @Environment(UsageStore.self) private var store
-    /// Tick chaque 30 s pour garder « il y a X min » et « dans X h » à jour.
+    /// Tick toutes les 30 s pour garder « updated … ago » et « resets in … » à jour.
     @State private var now = Date()
     private let clock = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
@@ -11,18 +11,18 @@ struct UsageView: View {
             header
 
             if let snapshot = store.snapshot {
-                UsageRow(title: "Session (5 h)", window: snapshot.fiveHour, now: now)
-                UsageRow(title: "Semaine", window: snapshot.sevenDay, now: now)
+                UsageRow(title: tr("Session (5 h)"), window: snapshot.fiveHour, now: now)
+                UsageRow(title: tr("Week"), window: snapshot.sevenDay, now: now)
                 if let opus = snapshot.sevenDayOpus {
-                    UsageRow(title: "Semaine · Opus", window: opus, now: now)
+                    UsageRow(title: tr("Week · Opus"), window: opus, now: now)
                 }
                 if let sonnet = snapshot.sevenDaySonnet {
-                    UsageRow(title: "Semaine · Sonnet", window: sonnet, now: now)
+                    UsageRow(title: tr("Week · Sonnet"), window: sonnet, now: now)
                 }
             } else if store.errorMessage == nil {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
-                    Text("Chargement de l'usage…").font(.callout).foregroundStyle(.secondary)
+                    Text(tr("Loading usage…")).font(.callout).foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.vertical, 8)
@@ -47,7 +47,9 @@ struct UsageView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Claude Usage").font(.headline)
                 if let creds = store.credentials {
-                    Text([creds.email, creds.subscriptionLabel.map { "Abonnement \($0)" }, "via \(creds.source.label)"]
+                    Text([creds.email,
+                          creds.subscriptionLabel.map { tr("\($0) plan") },
+                          tr("via \(creds.source.label)")]
                         .compactMap { $0 }
                         .joined(separator: " · "))
                         .font(.caption2)
@@ -65,7 +67,7 @@ struct UsageView: View {
     private var footer: some View {
         HStack {
             if let last = store.lastRefresh {
-                Text("Mis à jour \(RelativeTime.ago(last, now: now))")
+                Text(tr("Updated \(RelativeTime.ago(last, now: now))"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -75,9 +77,9 @@ struct UsageView: View {
             } label: {
                 Image(systemName: "arrow.clockwise")
             }
-            .help("Rafraîchir")
-            Button("Délier") { store.unlink() }
-            Button("Quitter") { NSApplication.shared.terminate(nil) }
+            .help(tr("Refresh"))
+            Button(tr("Unlink")) { store.unlink() }
+            Button(tr("Quit")) { NSApplication.shared.terminate(nil) }
         }
         .controlSize(.small)
     }
@@ -100,7 +102,8 @@ private struct UsageRow: View {
             ProgressView(value: window?.fraction ?? 0)
                 .tint(window.map { UsageColor.color(for: $0.utilization) } ?? .secondary)
             if let reset = window?.resetsAt {
-                Text("Réinitialisation \(RelativeTime.until(reset, now: now)) (\(reset.formatted(date: .omitted, time: .shortened)))")
+                let clock = reset.formatted(date: .omitted, time: .shortened)
+                Text(tr("Resets \(RelativeTime.until(reset, now: now)) (\(clock))"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -109,25 +112,28 @@ private struct UsageRow: View {
 }
 
 enum RelativeTime {
+    private static let formatter: DateComponentsFormatter = {
+        let f = DateComponentsFormatter()
+        f.allowedUnits = [.day, .hour, .minute]
+        f.unitsStyle = .abbreviated
+        f.maximumUnitCount = 2
+        f.zeroFormattingBehavior = .dropAll
+        return f
+    }()
+
     static func until(_ date: Date, now: Date) -> String {
         let seconds = date.timeIntervalSince(now)
-        guard seconds > 30 else { return "imminente" }
-        return "dans \(duration(seconds))"
+        guard seconds > 30 else { return tr("soon") }
+        return tr("in \(duration(seconds))")
     }
 
     static func ago(_ date: Date, now: Date) -> String {
         let seconds = now.timeIntervalSince(date)
-        guard seconds >= 60 else { return "à l'instant" }
-        return "il y a \(duration(seconds))"
+        guard seconds >= 60 else { return tr("just now") }
+        return tr("\(duration(seconds)) ago")
     }
 
     private static func duration(_ seconds: TimeInterval) -> String {
-        let minutes = Int(seconds / 60)
-        let days = minutes / 1440
-        let hours = (minutes % 1440) / 60
-        let mins = minutes % 60
-        if days > 0 { return hours > 0 ? "\(days) j \(hours) h" : "\(days) j" }
-        if hours > 0 { return mins > 0 ? "\(hours) h \(String(format: "%02d", mins))" : "\(hours) h" }
-        return "\(max(mins, 1)) min"
+        formatter.string(from: max(seconds, 60)) ?? ""
     }
 }

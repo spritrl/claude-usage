@@ -13,15 +13,15 @@ struct UsageAPIClient {
         var errorDescription: String? {
             switch self {
             case .unauthorized:
-                return "Session Claude expirée ou invalide."
+                return tr("Claude session expired or invalid.")
             case .rateLimited:
-                return "Trop de requêtes vers l'API, nouvel essai plus tard."
+                return tr("Too many requests to the API, retrying later.")
             case .http(let code, let body):
-                return "Erreur API (\(code))\(body.isEmpty ? "" : " : \(body)")"
+                return tr("API error (\(code))\(body.isEmpty ? "" : ": \(body)")")
             case .decoding:
-                return "Réponse API inattendue."
+                return tr("Unexpected API response.")
             case .network(let error):
-                return "Réseau indisponible : \(error.localizedDescription)"
+                return tr("Network unavailable: \(error.localizedDescription)")
             }
         }
     }
@@ -51,7 +51,7 @@ struct UsageAPIClient {
             throw APIError.network(error)
         }
         guard let http = response as? HTTPURLResponse else {
-            throw APIError.http(0, "réponse non HTTP")
+            throw APIError.http(0, "non-HTTP response")
         }
 
         switch http.statusCode {

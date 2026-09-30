@@ -17,15 +17,15 @@ enum ClaudeCodeKeychainReader {
         var errorDescription: String? {
             switch self {
             case .notFound:
-                return "Aucun identifiant Claude Code trouvé dans le Trousseau. Lance `claude` et connecte-toi d'abord."
+                return tr("No Claude Code credentials found in the Keychain. Run `claude` and sign in first.")
             case .accessDenied:
-                return "Accès au Trousseau refusé. Réessaie et choisis « Toujours autoriser »."
+                return tr("Keychain access denied. Try again and choose “Always Allow”.")
             case .notLoggedIn:
-                return "Claude Code n'est pas connecté à un compte Claude (pas de jeton OAuth)."
+                return tr("Claude Code is not signed in to a Claude account (no OAuth token).")
             case .malformed:
-                return "L'entrée Trousseau de Claude Code est illisible."
+                return tr("The Claude Code Keychain entry is unreadable.")
             case .tool(let message):
-                return "Lecture du Trousseau impossible : \(message)"
+                return tr("Could not read the Keychain: \(message)")
             }
         }
     }

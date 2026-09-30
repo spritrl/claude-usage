@@ -7,8 +7,8 @@ enum CredentialSource: String, Codable {
 
     var label: String {
         switch self {
-        case .claudeCode: return "Claude Code"
-        case .app: return "Connexion Claude"
+        case .claudeCode: return tr("Claude Code")
+        case .app: return tr("Claude sign-in")
         }
     }
 }

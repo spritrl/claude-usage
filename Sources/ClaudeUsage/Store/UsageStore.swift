@@ -79,7 +79,7 @@ final class UsageStore {
     // MARK: - Liaison via Claude Code
 
     func linkViaClaudeCode(silent: Bool = false) async {
-        if !silent { phase = .linking("Lecture du Trousseau…") }
+        if !silent { phase = .linking(tr("Reading Keychain…")) }
         errorMessage = nil
         do {
             let creds = try await Task.detached(priority: .userInitiated) {
@@ -104,7 +104,7 @@ final class UsageStore {
         loginTask?.cancel()
         manualLoginPending = false
         errorMessage = nil
-        phase = .linking("Connexion dans le navigateur…")
+        phase = .linking(tr("Signing in from the browser…"))
         loginTask = Task { [oauth] in
             do {
                 let creds = try await oauth.loginViaBrowser { url in
@@ -132,10 +132,10 @@ final class UsageStore {
 
     func submitManualCode(_ code: String) async {
         guard let session = manualSession else {
-            errorMessage = "Lance d'abord la connexion manuelle."
+            errorMessage = tr("Start the manual sign-in first.")
             return
         }
-        phase = .linking("Échange du code…")
+        phase = .linking(tr("Exchanging the code…"))
         errorMessage = nil
         do {
             let creds = try await oauth.exchangeManualCode(code, session: session)
@@ -211,7 +211,7 @@ final class UsageStore {
             backoff = 0
         } catch UsageAPIClient.APIError.rateLimited(let retryAfter) {
             backoff = retryAfter ?? max(60, min(900, backoff == 0 ? 60 : backoff * 2))
-            errorMessage = "Limite de requêtes atteinte, nouvel essai dans \(Int(backoff / 60)) min."
+            errorMessage = tr("Rate limit reached, retrying in \(Int(backoff / 60)) min.")
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -252,7 +252,7 @@ final class UsageStore {
     enum StoreError: LocalizedError {
         case claudeCodeSessionExpired
         var errorDescription: String? {
-            "Session Claude Code expirée : ouvre `claude` dans un terminal pour la renouveler."
+            tr("Claude Code session expired: run `claude` in a terminal to renew it.")
         }
     }
 

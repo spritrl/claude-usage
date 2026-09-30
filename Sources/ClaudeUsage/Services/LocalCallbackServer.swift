@@ -12,10 +12,10 @@ final class LocalCallbackServer: @unchecked Sendable {
 
         var errorDescription: String? {
             switch self {
-            case .startFailed(let m): return "Impossible de démarrer le serveur local : \(m)"
-            case .timeout: return "Délai dépassé : aucune réponse du navigateur."
-            case .stateMismatch: return "Réponse OAuth invalide (state inattendu)."
-            case .denied(let m): return "Connexion refusée : \(m)"
+            case .startFailed(let m): return tr("Could not start the local server: \(m)")
+            case .timeout: return tr("Timed out: no response from the browser.")
+            case .stateMismatch: return tr("Invalid OAuth response (unexpected state).")
+            case .denied(let m): return tr("Sign-in refused: \(m)")
             }
         }
     }
@@ -126,7 +126,7 @@ final class LocalCallbackServer: @unchecked Sendable {
               let target = firstLine.split(separator: " ").dropFirst().first,
               let url = URLComponents(string: "http://localhost\(target)"),
               url.path == "/callback" else {
-            return ("404 Not Found", Self.page(title: "Introuvable", message: "Cette adresse n'est pas utilisée."))
+            return ("404 Not Found", Self.page(title: tr("Not found"), message: tr("This address is not in use.")))
         }
         let items = url.queryItems ?? []
         func value(_ name: String) -> String? { items.first { $0.name == name }?.value }
@@ -134,17 +134,17 @@ final class LocalCallbackServer: @unchecked Sendable {
         if let error = value("error") {
             let description = value("error_description") ?? error
             finish(.failure(ServerError.denied(description)))
-            return ("200 OK", Self.page(title: "Connexion refusée", message: description))
+            return ("200 OK", Self.page(title: tr("Sign-in refused"), message: description))
         }
         guard let code = value("code"), !code.isEmpty else {
-            return ("400 Bad Request", Self.page(title: "Code manquant", message: "Aucun code d'autorisation reçu."))
+            return ("400 Bad Request", Self.page(title: tr("Missing code"), message: tr("No authorization code received.")))
         }
         guard value("state") == expectedState else {
             finish(.failure(ServerError.stateMismatch))
-            return ("400 Bad Request", Self.page(title: "Réponse invalide", message: "Le paramètre state ne correspond pas."))
+            return ("400 Bad Request", Self.page(title: tr("Invalid response"), message: tr("The state parameter does not match.")))
         }
         finish(.success(code))
-        return ("200 OK", Self.page(title: "Compte lié ✓", message: "Tu peux fermer cet onglet et revenir à Claude Usage."))
+        return ("200 OK", Self.page(title: tr("Account linked ✓"), message: tr("You can close this tab and go back to Claude Usage.")))
     }
 
     private func finish(_ result: Result<String, Error>) {
@@ -155,7 +155,7 @@ final class LocalCallbackServer: @unchecked Sendable {
 
     private static func page(title: String, message: String) -> String {
         """
-        <!doctype html><html lang="fr"><head><meta charset="utf-8"><title>\(title)</title>
+        <!doctype html><html lang="\(Locale.current.language.languageCode?.identifier ?? "en")"><head><meta charset="utf-8"><title>\(title)</title>
         <style>body{font-family:-apple-system,system-ui,sans-serif;background:#f5f4f0;color:#1d1d1f;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
         main{text-align:center;max-width:26rem;padding:2rem}h1{font-size:1.5rem;margin:0 0 .5rem}p{color:#555;margin:0}</style></head>
         <body><main><h1>\(title)</h1><p>\(message)</p></main></body></html>
