@@ -22,4 +22,5 @@ clean:
 	rm -rf .build build
 
 screenshots: build
-	$$(swift build -c release --show-bin-path)/ClaudeUsage --screenshots docs
+	$$(swift build -c release --show-bin-path)/ClaudeUsage --screenshots docs --language en
+	$$(swift build -c release --show-bin-path)/ClaudeUsage --screenshots docs/fr --language fr

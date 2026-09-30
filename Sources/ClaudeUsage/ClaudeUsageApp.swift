@@ -11,6 +11,11 @@ struct ClaudeUsageApp: App {
         if let index = CommandLine.arguments.firstIndex(of: "--screenshots"),
            CommandLine.arguments.indices.contains(index + 1) {
             let directory = URL(fileURLWithPath: CommandLine.arguments[index + 1])
+            // `--language fr` force la langue du rendu pour ce processus uniquement (rien n'est persisté).
+            if let langIndex = CommandLine.arguments.firstIndex(of: "--language"),
+               CommandLine.arguments.indices.contains(langIndex + 1) {
+                Localization.forcedLanguage = CommandLine.arguments[langIndex + 1]
+            }
             do {
                 try Screenshots.render(to: directory)
                 exit(0)

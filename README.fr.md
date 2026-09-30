@@ -2,18 +2,18 @@
 
 Petite app macOS native qui affiche ta consommation Claude en direct dans la barre de menus.
 
-> 🇬🇧 [English version](README.md)
+<p align="center"><a href="README.md">English</a> · <b>Français</b></p>
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/menubar-dark.png">
-    <img src="docs/menubar-light.png" alt="Claude Usage dans la barre de menus macOS : un anneau coloré suivi de 42% · 18%" width="321">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/fr/menubar-dark.png">
+    <img src="docs/fr/menubar-light.png" alt="Claude Usage dans la barre de menus macOS : un anneau coloré suivi de 42% · 18%" width="321">
   </picture>
 </p>
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/popup-dark.png">
-    <img src="docs/popup-light.png" alt="Popup Claude Usage avec les jauges session 5 h et semaine, les heures de réinitialisation et la source du compte" width="340">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/fr/popup-dark.png">
+    <img src="docs/fr/popup-light.png" alt="Popup Claude Usage avec les jauges session 5 h et semaine, les heures de réinitialisation et la source du compte" width="340">
   </picture>
 </p>
 
@@ -25,7 +25,7 @@ réinitialisation, abonnement et liaison du compte.
 - **Liaison sans configuration** : réutilise la session que Claude Code stocke déjà dans le Trousseau.
 - **Connexion autonome** : ou connecte-toi avec Claude depuis l'app (OAuth + PKCE, le même flux que Claude Code).
 - **Respect de la vie privée** : les jetons restent dans le Trousseau macOS et ne sont envoyés qu'à l'API d'Anthropic.
-- **Localisée** : anglais par défaut, français inclus (suit la langue du système). Pour ajouter une langue, déposer un `<lang>.lproj/Localizable.strings` dans `Sources/ClaudeUsage/Localization/`.
+- **Interface localisée** : anglais par défaut, français inclus (suit la langue du système). Pour ajouter une langue, déposer un `<lang>.lproj/Localizable.strings` dans `Sources/ClaudeUsage/Localization/`.
 
 ## Installation
 

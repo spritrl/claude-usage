@@ -133,6 +133,9 @@ private struct UsageBar: View {
 enum RelativeTime {
     private static let formatter: DateComponentsFormatter = {
         let f = DateComponentsFormatter()
+        var calendar = Calendar.current
+        calendar.locale = Localization.locale
+        f.calendar = calendar
         f.allowedUnits = [.day, .hour, .minute]
         f.unitsStyle = .abbreviated
         f.maximumUnitCount = 2

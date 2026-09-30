@@ -2,7 +2,7 @@
 
 A tiny native macOS menu bar app that shows your Claude subscription usage in real time.
 
-> 🇫🇷 [Version française](README.fr.md)
+<p align="center"><b>English</b> · <a href="README.fr.md">Français</a></p>
 
 <p align="center">
   <picture>
@@ -25,7 +25,7 @@ your plan, and account linking.
 - **Zero-config linking**: reuses the session Claude Code already stores in your Keychain.
 - **Standalone login**: or sign in with Claude directly from the app (OAuth + PKCE, same flow as Claude Code).
 - **Private by design**: tokens live only in the macOS Keychain and are sent only to Anthropic's API.
-- **Localized**: English by default, French included. Add a language by dropping a `<lang>.lproj/Localizable.strings` in `Sources/ClaudeUsage/Localization/`.
+- **Localized UI**: English by default, French included (follows the system language). Add a language by dropping a `<lang>.lproj/Localizable.strings` in `Sources/ClaudeUsage/Localization/`.
 
 ## Install
 

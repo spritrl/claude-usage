@@ -8,12 +8,14 @@ enum Screenshots {
     static func render(to directory: URL) throws {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let store = UsageStore.sample()
+        let locale = Locale(identifier: Localization.forcedLanguage ?? Locale.current.identifier)
 
         for (suffix, appearance, scheme) in [("light", NSAppearance.Name.aqua, ColorScheme.light),
                                              ("dark", NSAppearance.Name.darkAqua, ColorScheme.dark)] {
             let popup = PopoverView()
                 .environment(store)
                 .environment(\.colorScheme, scheme)
+                .environment(\.locale, locale)
                 .background(Color(nsColor: .windowBackgroundColor))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -26,6 +28,7 @@ enum Screenshots {
             let bar = MenuBarStrip()
                 .environment(store)
                 .environment(\.colorScheme, scheme)
+                .environment(\.locale, locale)
             try snapshot(bar, appearance: appearance, transparent: false)
                 .write(to: directory.appendingPathComponent("menubar-\(suffix).png"))
         }
@@ -66,12 +69,15 @@ enum Screenshots {
 
 /// Imitation d'un coin de barre de menus autour du vrai `MenuBarLabel`.
 private struct MenuBarStrip: View {
+    /// Date fixe, formatée par `Text` dans la locale de l'environnement, comme l'horloge de la barre de menus.
+    private static let clock = Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 30, hour: 14, minute: 32))!
+
     var body: some View {
         HStack(spacing: 18) {
             MenuBarLabel()
             Image(systemName: "wifi")
             Image(systemName: "battery.75percent")
-            Text("Tue 30 Sep  14:32")
+            Text(Self.clock, format: .dateTime.weekday(.abbreviated).day().month(.abbreviated).hour().minute())
         }
         .font(.system(size: 13))
         .padding(.horizontal, 16)
