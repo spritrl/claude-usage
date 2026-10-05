@@ -15,10 +15,12 @@
 "Code exchange failed (%lld)%@" = "Code exchange failed (%lld)%@";
 "Could not read the Keychain: %@" = "Could not read the Keychain: %@";
 "Could not start the local server: %@" = "Could not start the local server: %@";
+"Could not update the login item: %@" = "Could not update the login item: %@";
 "Exchanging the code…" = "Exchanging the code…";
 "Invalid OAuth response (unexpected state)." = "Invalid OAuth response (unexpected state).";
 "Invalid response" = "Invalid response";
 "Keychain access denied. Try again and choose “Always Allow”." = "Keychain access denied. Try again and choose “Always Allow”.";
+"Launch at login" = "Launch at login";
 "Link via Claude Code" = "Link via Claude Code";
 "Link your Claude account" = "Link your Claude account";
 "Loading usage…" = "Loading usage…";
@@ -53,6 +55,7 @@
 "Unexpected API response." = "Unexpected API response.";
 "Unlink" = "Unlink";
 "Updated %@" = "Updated %@";
+"Waiting for your approval in System Settings › Login Items" = "Waiting for your approval in System Settings › Login Items";
 "Week" = "Week";
 "Week · Opus" = "Week · Opus";
 "Week · Sonnet" = "Week · Sonnet";

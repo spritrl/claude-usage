@@ -21,6 +21,9 @@ final class UsageStore {
     var lastRefresh: Date?
     /// Vrai quand le champ « coller le code » doit être affiché.
     private(set) var manualLoginPending = false
+    /// État de l'ouverture à la connexion (relu à chaque ouverture du popup).
+    var launchAtLogin: LaunchAtLogin.Status = .unavailable
+    private(set) var launchAtLoginError: String?
 
     // MARK: Dépendances / internes
     private let api = UsageAPIClient()
@@ -37,6 +40,8 @@ final class UsageStore {
     private enum Keys {
         static let linkedSource = "linkedSource"
         static let autoLinkDisabled = "claudeCodeAutoLinkDisabled"
+        /// Posé après le premier lancement : l'enregistrement par défaut n'est tenté qu'une fois.
+        static let launchAtLoginConfigured = "launchAtLoginConfigured"
     }
 
     var isLinked: Bool { phase == .linked }
@@ -51,6 +56,7 @@ final class UsageStore {
 
     private func bootstrap() async {
         let defaults = UserDefaults.standard
+        configureLaunchAtLoginIfNeeded()
         if let saved = AppKeychainStore.load() {
             credentials = saved
             phase = .linked
@@ -74,6 +80,37 @@ final class UsageStore {
                 try? await Task.sleep(for: .seconds(wait))
             }
         }
+    }
+
+    // MARK: - Ouverture à la connexion
+
+    /// Au premier lancement depuis un bundle, l'app s'enregistre comme élément d'ouverture.
+    /// L'utilisateur peut la décocher ensuite ; on ne réessaie jamais en silence.
+    private func configureLaunchAtLoginIfNeeded() {
+        let defaults = UserDefaults.standard
+        if LaunchAtLogin.isAvailable, !defaults.bool(forKey: Keys.launchAtLoginConfigured) {
+            defaults.set(true, forKey: Keys.launchAtLoginConfigured)
+            if LaunchAtLogin.status == .disabled {
+                try? LaunchAtLogin.setEnabled(true)
+            }
+        }
+        refreshLaunchAtLoginStatus()
+    }
+
+    func refreshLaunchAtLoginStatus() {
+        // Hors bundle (`swift run`, captures), on garde l'état déjà posé.
+        guard LaunchAtLogin.isAvailable else { return }
+        launchAtLogin = LaunchAtLogin.status
+    }
+
+    func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            try LaunchAtLogin.setEnabled(enabled)
+            launchAtLoginError = nil
+        } catch {
+            launchAtLoginError = tr("Could not update the login item: \(error.localizedDescription)")
+        }
+        refreshLaunchAtLoginStatus()
     }
 
     // MARK: - Liaison via Claude Code

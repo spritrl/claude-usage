@@ -36,6 +36,7 @@ struct UsageView: View {
             }
 
             Divider()
+            LaunchAtLoginToggle()
             footer
         }
         .padding(14)

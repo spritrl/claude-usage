@@ -104,6 +104,7 @@ extension UsageStore {
         )
         store.lastRefresh = now.addingTimeInterval(-120)
         store.phase = .linked
+        store.launchAtLogin = .enabled
         return store
     }
 }

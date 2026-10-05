@@ -25,6 +25,7 @@ réinitialisation, abonnement et liaison du compte.
 - **Liaison sans configuration** : réutilise la session que Claude Code stocke déjà dans le Trousseau.
 - **Connexion autonome** : ou connecte-toi avec Claude depuis l'app (OAuth + PKCE, le même flux que Claude Code).
 - **Respect de la vie privée** : les jetons restent dans le Trousseau macOS et ne sont envoyés qu'à l'API d'Anthropic.
+- **Toujours là** : se lance à l'ouverture de session par défaut (élément d'ouverture macOS standard, sans helper) ; décoche la case dans le popup pour désactiver.
 - **Interface localisée** : anglais par défaut, français inclus (suit la langue du système). Pour ajouter une langue, déposer un `<lang>.lproj/Localizable.strings` dans `Sources/ClaudeUsage/Localization/`.
 
 ## Installation

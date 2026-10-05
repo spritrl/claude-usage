@@ -80,7 +80,8 @@ struct LinkAccountView: View {
             }
 
             Divider()
-            HStack {
+            HStack(alignment: .top) {
+                LaunchAtLoginToggle()
                 Spacer()
                 Button(tr("Quit")) { NSApplication.shared.terminate(nil) }
                     .controlSize(.small)
