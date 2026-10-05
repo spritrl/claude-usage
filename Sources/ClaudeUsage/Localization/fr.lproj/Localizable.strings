@@ -15,10 +15,12 @@
 "Code exchange failed (%lld)%@" = "Échec de l'échange du code (%lld)%@";
 "Could not read the Keychain: %@" = "Lecture du Trousseau impossible : %@";
 "Could not start the local server: %@" = "Impossible de démarrer le serveur local : %@";
+"Could not update the login item: %@" = "Impossible de modifier l'élément d'ouverture : %@";
 "Exchanging the code…" = "Échange du code…";
 "Invalid OAuth response (unexpected state)." = "Réponse OAuth invalide (state inattendu).";
 "Invalid response" = "Réponse invalide";
 "Keychain access denied. Try again and choose “Always Allow”." = "Accès au Trousseau refusé. Réessaie et choisis « Toujours autoriser ».";
+"Launch at login" = "Lancer à l'ouverture de session";
 "Link via Claude Code" = "Lier via Claude Code";
 "Link your Claude account" = "Lier ton compte Claude";
 "Loading usage…" = "Chargement de l'usage…";
@@ -53,6 +55,7 @@
 "Unexpected API response." = "Réponse API inattendue.";
 "Unlink" = "Délier";
 "Updated %@" = "Mis à jour %@";
+"Waiting for your approval in System Settings › Login Items" = "En attente de ton accord dans Réglages Système › Ouverture";
 "Week" = "Semaine";
 "Week · Opus" = "Semaine · Opus";
 "Week · Sonnet" = "Semaine · Sonnet";

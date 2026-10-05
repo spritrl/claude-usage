@@ -25,6 +25,7 @@ your plan, and account linking.
 - **Zero-config linking**: reuses the session Claude Code already stores in your Keychain.
 - **Standalone login**: or sign in with Claude directly from the app (OAuth + PKCE, same flow as Claude Code).
 - **Private by design**: tokens live only in the macOS Keychain and are sent only to Anthropic's API.
+- **Always there**: launches at login by default (standard macOS login item, no helper); untick it in the popup to opt out.
 - **Localized UI**: English by default, French included (follows the system language). Add a language by dropping a `<lang>.lproj/Localizable.strings` in `Sources/ClaudeUsage/Localization/`.
 
 ## Install

@@ -13,6 +13,7 @@ struct PopoverView: View {
         }
         .frame(width: 300)
         .onAppear {
+            store.refreshLaunchAtLoginStatus()
             Task { await store.refresh(force: false) }
         }
     }
